@@ -87,15 +87,29 @@ if __name__ == "__main__":
     bucket = sys.argv[1]
     print(f"I got the following bucket path: {bucket}")
     print("Attempting to pull from the bucket...")
-    download_from_bucket(bucket)
-    print(f"{os.listdir('.')}")
+    # Pulling fasta files from bucket
+    try:
+        download_from_bucket(bucket)
+        print(f"{os.listdir('.')}")
+    except Exception as e:
+        sys.exit("Error downloading from bucket: {e}")
     
-    device = torch.cuda.current_device()
-    print("Tokenizing the input")
-    tokenized_input = process_fasta("input.fasta")
-    print("Running ESMFold.")
-    output = esmfold(tokenized_input)
-    print("Saving outputs to pdb")
-    save_output(output)
-    print("Copying outputs to bucket")
-    write_to_bucket(bucket, "output.pdb")
+    # Tokenizing input and running ESMfold
+    try:
+        device = torch.cuda.current_device()
+        print("Tokenizing the input")
+        tokenized_input = process_fasta("input.fasta")
+        print("Running ESMFold.")
+        output = esmfold(tokenized_input)
+        print("Saving outputs to pdb")
+    except Exception as e:
+        sys.exit("Error running ESMFold: {e}")
+
+
+    # Saving output
+    try:
+        save_output(output)
+        print("Copying outputs to bucket")
+        write_to_bucket(bucket, "output.pdb")
+    except Exception as e:
+        sys.exit("Error saving outputs to bucket: {e}")
