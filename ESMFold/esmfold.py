@@ -23,7 +23,7 @@ def write_to_bucket(bucket_name, file_name):
     try:
         process = subprocess.run(['gsutil', 'cp', file_name, f'gs://{bucket_name}/{file_name}'], check=True)
     except subprocess.CalledProcessError as e:
-        print(f'Error occurred while downloading file from GCS: {e}')
+        print(f'Error occurred while uploading file to GCS: {e}')
         
         
 def process_fasta(file):

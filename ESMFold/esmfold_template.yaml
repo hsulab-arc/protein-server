@@ -7,7 +7,7 @@ spec:
   template:
     spec:
       containers:
-      - name: esm-inference
+      - name: esmfold-inference
         image: "us-west1-docker.pkg.dev/hsu-matthewnemeth-personal/esm-docker/esm@sha256:ae72c25938ac4fc9825e31f7548adc42f402c83f9144b98fdeba036b449776d5"
         resources:
           limits:
