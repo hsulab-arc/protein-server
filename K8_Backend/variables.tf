@@ -90,7 +90,7 @@ resource "google_container_node_pool" "gpu_pool" {
     machine_type = "n1-highmem-8"
     tags         = ["gke-node", "${var.project_id}-gke"]
 
-    disk_size_gb = "50"
+    disk_size_gb = "100"
     disk_type    = "pd-standard"
 
     metadata = {
