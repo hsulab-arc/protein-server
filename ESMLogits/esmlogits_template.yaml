@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-name-placeholder
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+      - name: esmlogits-inference
+        image: "us-west1-docker.pkg.dev/hsu-matthewnemeth-personal/esm-docker/esmlogits@sha256:1a2e294deb7cbfba8e253d7706831cffe766e55a3edced2f78dcf315a5b38a4c"
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+          requests:
+            cpu: "6"
+            memory: "40Gi"
+            ephemeral-storage: "30Gi"
+
+        command: ["python3", "esmlogits.py", "bucket-name-placeholder"]
+        # command: ["sleep", "infinity"]
+      nodeSelector:
+        cloud.google.com/gke-nodepool: esm-inference-pool
+        cloud.google.com/gke-accelerator: "nvidia-tesla-t4"
+        iam.gke.io/gke-metadata-server-enabled: "true"
+      restartPolicy: OnFailure
+      serviceAccountName: esm-job
