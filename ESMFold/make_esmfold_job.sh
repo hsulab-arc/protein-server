@@ -17,7 +17,7 @@ echo "Job name: ${job_name}"
 # and the bucket name placeholder with the unique bucket name
 # for MacOS, sed -i requires you to set a backup file, so a backup job.yaml.backup is created
 sed "s/job-name-placeholder/$job_name/g" ./esmfold_template.yaml > job.yaml
-sed -i.backup "s/bucket-name-placeholder/$bucket_name/g" job.yaml
+sed -i.backup "s#bucket-name-placeholder#$bucket_name#g" job.yaml
 
 # Apply the job configuration
 kubectl apply -f job.yaml
